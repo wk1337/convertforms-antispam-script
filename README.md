@@ -49,6 +49,38 @@ This version runs immediately inside the Convert Forms process — no extra file
 
 ---
 
+## ⚙️ Configuration
+
+At the top of the script, you can easily adjust the following parameters:
+
+```php
+// Path to the log file (recommended: outside your web root)
+$logFilePath = realpath(JPATH_ROOT . '/../logs') . '/convertforms_spam.log';
+
+// Enable or disable debug mode
+// true  = simulate checks without sending the form
+// false = live mode (form is sent normally)
+$debugMode = false;
+
+// Fields to compare (must not contain the same value)
+$compareFields = [
+    'nachname' => 'Name',
+    'vorname'  => 'Vorname'
+];
+
+// Fields to check for random spam strings
+$randomCheckFields = [
+    'nachname' => 'Name',
+    'vorname'  => 'Vorname',
+    'firma'    => 'Firma'
+];
+```
+
+> 💡 Tip: You can freely rename or remove fields.  
+> If a configuration section (e.g. `$compareFields`) is left empty, that check will be skipped automatically.
+
+---
+
 ## 🧩 Files
 
 | File | Description |
@@ -80,4 +112,4 @@ Both versions are **identical in logic**, only comments and messages differ.
 ## 📄 License
 
 This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.  
-© 2025 https://github.com/wk1337 - **Kai W.**
+© 2025 [https://github.com/wk1337](https://github.com/wk1337) – **Kai W.**
