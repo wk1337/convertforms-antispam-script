@@ -86,24 +86,37 @@ $compareFieldsNorm = $compareFields;
 if (count($compareFieldsNorm) === 2) {
     $keys = array_keys($compareFieldsNorm);
     if (isset($post[$keys[0]], $post[$keys[1]]) && trim($post[$keys[0]]) === trim($post[$keys[1]]) && trim($post[$keys[0]]) !== '') {
-        throw new Exception('Die Felder dürfen nicht denselben Inhalt haben. Bitte prüfen Sie Ihre Angaben.');
+        writeSpamLogEntry('Die Felder dürfen nicht denselben Inhalt haben. Bitte prüfen Sie Ihre Angaben. IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . ' | fields: ' . json_encode([
+            $keys[0] => $post[$keys[0]] ?? null,
+            $keys[1] => $post[$keys[1]] ?? null
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), $logFilePath);
+    throw new Exception('Die Felder dürfen nicht denselben Inhalt haben. Bitte prüfen Sie Ihre Angaben.');
     }
 }
 
 foreach ($randomCheckFields as $field => $label) {
     $trigger = detectRandomLikeStringTrigger($post[$field] ?? '');
     if ($trigger) {
-        throw new Exception('Spamverdacht: Ihre Eingabe in „' . $label . '“ ist verdächtig. Bitte prüfen Sie Ihre Angaben.');
+        writeSpamLogEntry('Spamverdacht: Ihre Eingabe in „' . $label . '“ ist verdächtig. Bitte prüfen Sie Ihre Angaben. IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . ' | fields: ' . json_encode([
+            'field' => $field,
+            'value' => $post[$field] ?? null,
+            'trigger' => $trigger
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), $logFilePath);
+    throw new Exception('Spamverdacht: Ihre Eingabe in „' . $label . '“ ist verdächtig. Bitte prüfen Sie Ihre Angaben.');
     }
 }
 
 foreach ($post as $field => $value) {
     if (detectSqlInjection($value)) {
-        throw new Exception('Verdacht auf schädliche Eingabe in Feld „' . $field . '“. Bitte prüfen Sie Ihre Angaben.');
+        writeSpamLogEntry('Verdacht auf schädliche Eingabe in Feld „' . $field . '“. Bitte prüfen Sie Ihre Angaben. IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . ' | fields: ' . json_encode([
+            $field => $value
+        ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), $logFilePath);
+    throw new Exception('Verdacht auf schädliche Eingabe in Feld „' . $field . '“. Bitte prüfen Sie Ihre Angaben.');
     }
 }
 
 if ($debugMode) {
+    writeSpamLogEntry('Debug-Modus: Keine Probleme erkannt – Formular wurde nicht gesendet (Simulation). IP: ' . ($_SERVER['REMOTE_ADDR'] ?? 'unknown') . ' | fields: ' . json_encode([], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES), $logFilePath);
     throw new Exception('Debug-Modus: Keine Probleme erkannt – Formular wurde nicht gesendet (Simulation).');
 }
 
