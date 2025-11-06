@@ -2,7 +2,7 @@
 /**
  * Convert Forms Anti-Spam Script ´
  *
- * @author      Kai W. (https://github.com/wk1337-)
+ * @author      Kai W. (https://github.com/wk1337)
  * @copyright   Copyright (c) 2025 Kai W.
  * @license     MIT License
  *
