@@ -1,9 +1,23 @@
 # 🛡️ Convert Forms Anti-Spam Script
 
-A lightweight and fully self-contained **PHP Anti-Spam Script** for Joomla **Convert Forms**.
+A lightweight and fully self-contained **PHP Anti-Spam Script** for Joomla when using **Convert Forms**.
 
 It prevents automated spam submissions based on text pattern analysis —  
 no CAPTCHA, no external service, and fully GDPR-compliant.
+
+---
+
+
+## 💡 About
+
+This script is an **additional add-on** for the excellent  
+[Convert Forms Extension by Tassos Marinos](https://www.tassos.gr/joomla-extensions/convert-forms).  
+Convert Forms already includes great built-in spam protection features such as **Honeypot** and **Time-to-Submit**.  
+This script simply adds **pattern-based detection** for cases where bots still manage to get through —  
+making an already amazing extension even stronger against spam.
+
+It is especially useful if you **don’t want to use external CAPTCHA services** like Google reCAPTCHA or hCaptcha.  
+The script works entirely locally, requires no external connections, and remains fully **GDPR-compliant**.
 
 ---
 
