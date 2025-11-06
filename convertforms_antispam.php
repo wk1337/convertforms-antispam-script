@@ -1,0 +1,1 @@
+// convertforms_antispam.php - German version placeholder
